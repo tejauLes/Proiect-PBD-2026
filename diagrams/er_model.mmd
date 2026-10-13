@@ -1,0 +1,148 @@
+erDiagram
+
+    UTILIZATOR ||--o| ANTRENOR : "este"
+
+    UTILIZATOR ||--o| SPORTIV : "este"
+
+    ANTRENOR ||--o{ ECHIPA : "antreneaza"
+
+    ECHIPA ||--o{ SPORTIV : "include"
+
+    ANTRENOR ||--o{ ANTRENAMENT : "conduce"
+
+    ECHIPA ||--o{ ANTRENAMENT : "participa_la"
+
+    SPORTIV ||--o{ PREZENTA : "inregistreaza"
+
+    ANTRENAMENT ||--o{ PREZENTA : "contine"
+
+    SPORTIV ||--o{ PLATA : "efectueaza"
+
+    SPORTIV ||--o{ REZULTAT_IA : "inregistreaza_predictie"
+
+    UTILIZATOR {
+
+        int id_utilizator PK
+
+        string nume
+
+        string prenume
+
+        string email UK
+
+        string parola_hash
+
+        string rol
+
+    }
+
+    ANTRENOR {
+
+        int id_antrenor PK, FK
+
+        string specializare
+
+        string telefon
+
+    }
+
+    SPORTIV {
+
+        int id_sportiv PK, FK
+
+        date data_nasterii
+
+        int id_echipa FK
+
+        string status_abonament
+
+    }
+
+    ECHIPA {
+
+        int id_echipa PK
+
+        string nume_echipa
+
+        string categorie_varsta
+
+        int id_antrenor FK
+
+    }
+
+    ANTRENAMENT {
+
+        int id_antrenament PK
+
+        date data_antrenament
+
+        time ora_inceput
+
+        string locatie
+
+        int id_echipa FK
+
+        int id_antrenor FK
+
+    }
+
+    PREZENTA {
+
+        int id_prezenta PK
+
+        int id_sportiv FK
+
+        int id_antrenament FK
+
+        string status_prezenta
+
+    }
+
+    PLATA {
+
+        int id_plata PK
+
+        int id_sportiv FK
+
+        decimal suma
+
+        date data_platii
+
+        string tip_plata
+
+        string status_plata
+
+    }
+
+    REZULTAT_IA {
+
+        int id_rezultat PK
+
+        int id_sportiv FK
+
+        decimal scor_risc_abandon
+
+        string categorie_risc
+
+        date data_predictie
+
+    }
+
+
+2. Descrierea Modelului Conceptual pentru Documentația Word (docs/)
+Entitățile și Atributele Principale:
+UTILIZATOR: id_utilizator (PK), nume, prenume, email, parola_hash, rol (Admin/Antrenor/Sportiv).
+ANTRENOR: id_antrenor (PK/FK către Utilizator), specializare, telefon.
+SPORTIV: id_sportiv (PK/FK către Utilizator), data_nasterii, id_echipa (FK), status_abonament.
+ECHIPA: id_echipa (PK), nume_echipa, categorie_varsta, id_antrenor (FK).
+ANTRENAMENT: id_antrenament (PK), data_antrenament, ora_inceput, locatie, id_echipa (FK), id_antrenor (FK).
+PREZENTA: id_prezenta (PK), id_sportiv (FK), id_antrenament (FK), status_prezenta (prezent/absent/motivat).
+PLATA: id_plata (PK), id_sportiv (FK), suma, data_platii, tip_plata, status_plata.
+REZULTAT_IA: id_rezultat (PK), id_sportiv (FK), scor_risc_abandon, categorie_risc, data_predictie.
+Relațiile dintre entități:
+UTILIZATOR – ANTRENOR / SPORTIV: Relație 1:1 (Specializare/Moștenire roluri).
+ANTRENOR – ECHIPA: Relație 1:N (Un antrenor poate pregăti una sau mai multe echipe).
+ECHIPA – SPORTIV: Relație 1:N (O echipă conține mai mulți sportivi înrolați).
+SPORTIV – PREZENTA – ANTRENAMENT: Relație N:M rezolvată prin tabela asociativă PREZENTA.
+SPORTIV – PLATA: Relație 1:N (Un sportiv efectuează mai multe plăți de-a lungul timpului).
+SPORTIV – REZULTAT_IA: Relație 1:N (Istoricul predicțiilor de Machine Learning generate pentru fiecare sportiv).
